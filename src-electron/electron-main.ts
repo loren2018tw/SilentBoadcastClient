@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu, Tray } from 'electron';
 import path from 'path';
 import os from 'os';
+import { connect } from 'mqtt';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -40,11 +41,13 @@ function createWindow() {
   });
 
   mainWindow.on('close', function (event) {
-    if (!isQuiting) {
-      event.preventDefault();
-      mainWindow?.hide();
+    if (!process.env.DEBUGGING) {
+      if (!isQuiting) {
+        event.preventDefault();
+        mainWindow?.hide();
+      }
+      return false;
     }
-    return false;
   });
 
   // let tray: Tray | undefined = undefined;
@@ -104,4 +107,26 @@ app.on('activate', () => {
   if (mainWindow === undefined) {
     createWindow();
   }
+});
+
+/*
+mqtt
+*/
+const MQTT_BROKER = 'mqtt://140.128.179.9';
+const MQTT_TOPJECT = '193604/SilentBoadcast/A401';
+
+const mqttClient = connect(MQTT_BROKER);
+
+mqttClient.on('connect', () => {
+  console.log('成功連線到 mqtt broker');
+  mqttClient.publish(MQTT_TOPJECT + '/connected', '連線成功！');
+  // 訂閱所有 mqtt 主題
+  mqttClient.subscribe(MQTT_TOPJECT);
+});
+
+mqttClient.on('message', (topic, message) => {
+  console.log(topic);
+  console.log(message.toString());
+  const data = JSON.parse(message.toString());
+  mainWindow?.webContents.send('mqtt:data', data);
 });
