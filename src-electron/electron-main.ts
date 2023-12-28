@@ -128,10 +128,12 @@ mqttClient.on('connect', () => {
 mqttClient.on('message', (topic, message) => {
   // console.log(topic);
   console.log(message.toString());
-  const data = JSON.parse(message.toString());
-
-  mainWindow?.webContents.send('mqtt:boadcast-message', data);
-
-  mainWindow?.focus();
-  mainWindow?.maximize();
+  try {
+    const data = JSON.parse(message.toString());
+    mainWindow?.webContents.send('mqtt:boadcast-message', data);
+    mainWindow?.focus();
+    mainWindow?.maximize();
+  } catch (e) {
+    console.log(e);
+  }
 });
