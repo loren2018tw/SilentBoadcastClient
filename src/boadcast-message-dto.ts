@@ -1,4 +1,4 @@
-export class BoadcastMessage {
+export class BoadcastMessageDto {
   timestame = new Date();
   msg = '';
   constructor() {

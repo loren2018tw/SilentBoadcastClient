@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, Tray } from 'electron';
 import path from 'path';
 import os from 'os';
 import { connect } from 'mqtt';
+import { BoadcastMessageDto } from 'src/boadcast-message-dto';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -113,20 +114,24 @@ app.on('activate', () => {
 mqtt
 */
 const MQTT_BROKER = 'mqtt://140.128.179.9';
-const MQTT_TOPJECT = '193604/SilentBoadcast/A401';
+const MQTT_TOPJECT = '193604/SilentBoadcast';
 
 const mqttClient = connect(MQTT_BROKER);
 
 mqttClient.on('connect', () => {
   console.log('成功連線到 mqtt broker');
-  mqttClient.publish(MQTT_TOPJECT + '/connected', '連線成功！');
+  mqttClient.publish(MQTT_TOPJECT, ' a401 連線成功！');
   // 訂閱所有 mqtt 主題
-  mqttClient.subscribe(MQTT_TOPJECT);
+  mqttClient.subscribe(MQTT_TOPJECT + '/client');
 });
 
 mqttClient.on('message', (topic, message) => {
-  console.log(topic);
+  // console.log(topic);
   console.log(message.toString());
   const data = JSON.parse(message.toString());
-  mainWindow?.webContents.send('mqtt:data', data);
+
+  mainWindow?.webContents.send('mqtt:boadcast-message', data);
+
+  mainWindow?.focus();
+  mainWindow?.maximize();
 });
