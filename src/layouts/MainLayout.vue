@@ -5,10 +5,10 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          Quasar App
+          CKES 無聲廣播 v20231230
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Author: Loren Li</div>
       </q-toolbar>
     </q-header>
 

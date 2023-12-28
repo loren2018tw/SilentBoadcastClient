@@ -35,6 +35,7 @@ function createWindow() {
     mainWindow.webContents.on('devtools-opened', () => {
       mainWindow?.webContents.closeDevTools();
     });
+    mainWindow.minimize(); // 啟動後直接縮小到系統列
   }
 
   mainWindow.on('closed', () => {
@@ -42,6 +43,7 @@ function createWindow() {
   });
 
   mainWindow.on('close', function (event) {
+    // 非開發環境，關閉視窗會縮小系統列。
     if (!process.env.DEBUGGING) {
       if (!isQuiting) {
         event.preventDefault();
@@ -88,7 +90,7 @@ function createTray(): Tray {
     },
   ]);
 
-  appIcon.on('double-click', function (event) {
+  appIcon.on('double-click', function () {
     mainWindow?.show();
   });
   appIcon.setToolTip('CKES無聲廣播');
@@ -115,12 +117,13 @@ mqtt
 */
 const MQTT_BROKER = 'mqtt://140.128.179.9';
 const MQTT_TOPJECT = '193604/SilentBoadcast';
+const CLIENT_NAME = 'A401';
 
 const mqttClient = connect(MQTT_BROKER);
 
 mqttClient.on('connect', () => {
   console.log('成功連線到 mqtt broker');
-  mqttClient.publish(MQTT_TOPJECT, ' a401 連線成功！');
+  mqttClient.publish(MQTT_TOPJECT, CLIENT_NAME + ' 連線成功！');
   // 訂閱所有 mqtt 主題
   mqttClient.subscribe(MQTT_TOPJECT + '/client');
 });
@@ -129,10 +132,16 @@ mqttClient.on('message', (topic, message) => {
   // console.log(topic);
   console.log(message.toString());
   try {
-    const data = JSON.parse(message.toString());
-    mainWindow?.webContents.send('mqtt:boadcast-message', data);
-    mainWindow?.focus();
-    mainWindow?.maximize();
+    const data: BoadcastMessageDto = JSON.parse(message.toString());
+    // 要傳送給這個 client 的訊息才需要處理
+    if (
+      data.target.indexOf('all') != -1 ||
+      data.target.indexOf(CLIENT_NAME) != -1
+    ) {
+      mainWindow?.webContents.send('mqtt:boadcast-message', data);
+      mainWindow?.focus();
+      mainWindow?.maximize();
+    }
   } catch (e) {
     console.log(e);
   }

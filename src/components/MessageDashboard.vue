@@ -1,17 +1,15 @@
 <template>
   <div>
-    <q-carousel v-model="msgs" vertical transition-prev="slide-down" transition-next="slide-up" swipeable animated
-      control-color="white" navigation-icon="radio_button_unchecked" navigation padding arrows height="800px"
+    <q-carousel v-model="slide" vertical transition-prev="slide-down" transition-next="slide-up" swipeable animated
+      control-color="white" navigation-icon="radio_button_unchecked" navigation padding arrows height="100%"
       class="bg-purple text-white shadow-1 rounded-borders absolute-full">
       <template v-for="(item, index) in msgs" :key="index">
-        <q-carousel-slide name="msgs[index]" class="column no-wrap flex-center">
+        <q-carousel-slide :name="index" class="column no-wrap flex-center">
           <q-icon name="style" size="56px" />
           <div class="q-mt-md text-center">
-            <H4>
-              <q-chip color="orange" text-color="white" icon="event">
-                {{ item.timestame.toLocaleString() }}
-              </q-chip>
-            </H4>
+            <q-chip size="xl" color="orange" text-color="white" icon="event">
+              {{ item.timestame.toLocaleString() }}
+            </q-chip>
             <h2>{{ item.msg }}</h2>
           </div>
         </q-carousel-slide>
@@ -38,12 +36,13 @@ if (props.messages) {
   };
 }
 
-const slide = ref(msgs[0].timestame);
+const slide = ref(0);
 
 
 window.electronAPI.receive('mqtt:boadcast-message', (event, data: BoadcastMessageDto) => {
   console.log(data);
   msgs.unshift(data);
+  slide.value = 0;
   // msgs[0].timestame = new Date();
 });
 
