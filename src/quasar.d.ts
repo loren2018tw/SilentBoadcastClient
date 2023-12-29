@@ -7,3 +7,14 @@
 //  this declaration also apply `quasar` own
 //  augmentations (eg. adds `$q` into Vue component context)
 /// <reference types="@quasar/app-vite" />
+
+export interface IElectronAPI {
+  receive(arg0: string, arg1: (event: any, data: any) => void): unknown;
+  loadPreferences: () => Promise<void>;
+}
+
+declare global {
+  interface Window {
+    electronAPI: IElectronAPI;
+  }
+}

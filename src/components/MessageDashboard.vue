@@ -31,6 +31,7 @@ if (props.messages) {
   msgs = [...props.messages];
 } else {
   msgs[0] = {
+    target: [],
     timestame: new Date(),
     msg: '沒有消息，就是好消息...',
   };
@@ -43,7 +44,6 @@ window.electronAPI.receive('mqtt:boadcast-message', (event, data: BoadcastMessag
   console.log(data);
   msgs.unshift(data);
   slide.value = 0;
-  // msgs[0].timestame = new Date();
 });
 
 </script>
