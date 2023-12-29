@@ -27,6 +27,7 @@ function createWindow() {
 
   mainWindow.loadURL(process.env.APP_URL);
 
+  mainWindow.maximize();
   if (process.env.DEBUGGING) {
     // if on DEV or Production with debug enabled
     mainWindow.webContents.openDevTools();
@@ -53,7 +54,6 @@ function createWindow() {
     }
   });
 
-  // let tray: Tray | undefined = undefined;
   createTray();
   mainWindow.on('minimize', function (event: Electron.Event) {
     event.preventDefault();
@@ -98,6 +98,7 @@ function createTray(): Tray {
   return appIcon;
 }
 
+Menu.setApplicationMenu(null);
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
