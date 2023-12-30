@@ -1,0 +1,5 @@
+{
+  "mqttBroker": "mqtt://140.128.179.9",
+  "mqttTopject": "193604/SilentBoadcast",
+  "clientId": "A777"
+}

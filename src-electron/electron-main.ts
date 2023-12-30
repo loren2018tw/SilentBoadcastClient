@@ -116,15 +116,21 @@ app.on('activate', () => {
 /*
 mqtt
 */
-const MQTT_BROKER = 'mqtt://140.128.179.9';
-const MQTT_TOPJECT = '193604/SilentBoadcast';
-const CLIENT_NAME = 'A401';
+
+// 讀取設定檔
+import { readFileSync } from 'fs';
+const configFile = readFileSync('config.json', 'utf-8');
+const configObject = JSON.parse(configFile);
+
+const MQTT_BROKER = configObject.mqttBroker;
+const MQTT_TOPJECT = configObject.mqttTopject;
+const CLIENT_ID = configObject.clientId;
 
 const mqttClient = connect(MQTT_BROKER);
 
 mqttClient.on('connect', () => {
   console.log('成功連線到 mqtt broker');
-  mqttClient.publish(MQTT_TOPJECT, CLIENT_NAME + ' 連線成功！');
+  mqttClient.publish(MQTT_TOPJECT, CLIENT_ID + ' 連線成功！');
   // 訂閱所有 mqtt 主題
   mqttClient.subscribe(MQTT_TOPJECT + '/client');
 });
@@ -137,7 +143,7 @@ mqttClient.on('message', (topic, message) => {
     // 要傳送給這個 client 的訊息才需要處理
     if (
       data.target.indexOf('all') != -1 ||
-      data.target.indexOf(CLIENT_NAME) != -1
+      data.target.indexOf(CLIENT_ID) != -1
     ) {
       mainWindow?.webContents.send('mqtt:boadcast-message', data);
       mainWindow?.focus();

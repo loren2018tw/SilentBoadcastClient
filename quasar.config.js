@@ -192,6 +192,12 @@ module.exports = configure(function (/* ctx */) {
         linux: {
           target: 'tar.gz',
         },
+        extraResources: [
+          {
+            from: './config.json',
+            to: '/config.json',
+          },
+        ],
       },
     },
 
