@@ -187,7 +187,7 @@ module.exports = configure(function (/* ctx */) {
         appId: 'silentboadcastclient',
         productName: 'CKES 無聲廣播系統',
         win: {
-          target: 'portable',
+          target: '7z',
         },
         linux: {
           target: 'tar.gz',
