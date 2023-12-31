@@ -8,7 +8,12 @@
           <q-icon name="style" size="56px" />
           <div class="q-mt-md text-center">
             <q-chip size="xl" color="orange" text-color="white" icon="event">
-              {{ item.timestame.toLocaleString() }}
+              <!-- {{ new Date(item.timestame).toLocaleString('zh-TW', {
+                timeZone: 'Asia/Taipei'
+              }) }} -->
+              <!-- {{ new Date(item.timestame).toLocaleString() }} -->
+              {{ new Date(item.timestame).toLocaleString() }}
+
             </q-chip>
             <h2>{{ item.msg }}</h2>
           </div>
@@ -19,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { BoadcastMessageDto } from 'src/boadcast-message-dto';
+import { BmdActionType, BoadcastMessageDto } from 'src/dto/boadcast-message-dto';
 import { reactive, ref } from 'vue';
 
 const props = defineProps<{
@@ -32,13 +37,13 @@ if (props.messages) {
 } else {
   msgs[0] = {
     target: [],
-    timestame: new Date(),
+    action: BmdActionType.boadcast,
+    timestame: new Date().getTime(),
     msg: '沒有消息，就是好消息...',
   };
 }
 
 const slide = ref(0);
-
 
 window.electronAPI.receive('mqtt:boadcast-message', (event, data: BoadcastMessageDto) => {
   console.log(data);
@@ -47,3 +52,4 @@ window.electronAPI.receive('mqtt:boadcast-message', (event, data: BoadcastMessag
 });
 
 </script>
+src/dto/boadcast-message-dto

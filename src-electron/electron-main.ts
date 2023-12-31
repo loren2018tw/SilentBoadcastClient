@@ -2,7 +2,10 @@ import { app, BrowserWindow, Menu, Tray } from 'electron';
 import path from 'path';
 import os from 'os';
 import { connect } from 'mqtt';
-import { BoadcastMessageDto } from 'src/boadcast-message-dto';
+import {
+  BmdActionType,
+  BoadcastMessageDto,
+} from 'src/dto/boadcast-message-dto';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -119,6 +122,7 @@ mqtt
 
 // 讀取設定檔
 import { readFileSync } from 'fs';
+import { SbClient } from 'src/dto/sb-client-dto';
 const configFile = readFileSync('config.json', 'utf-8');
 const configObject = JSON.parse(configFile);
 
@@ -130,9 +134,14 @@ const mqttClient = connect(MQTT_BROKER);
 
 mqttClient.on('connect', () => {
   console.log('成功連線到 mqtt broker');
-  mqttClient.publish(MQTT_TOPJECT, CLIENT_ID + ' 連線成功！');
   // 訂閱所有 mqtt 主題
   mqttClient.subscribe(MQTT_TOPJECT + '/client');
+  // 通知 master client 端上線
+  const sbc: SbClient = {
+    id: CLIENT_ID,
+    name: '未知',
+  };
+  mqttClient.publish(MQTT_TOPJECT + '/master', JSON.stringify(sbc));
 });
 
 mqttClient.on('message', (topic, message) => {
@@ -142,12 +151,20 @@ mqttClient.on('message', (topic, message) => {
     const data: BoadcastMessageDto = JSON.parse(message.toString());
     // 要傳送給這個 client 的訊息才需要處理
     if (
-      data.target.indexOf('all') != -1 ||
-      data.target.indexOf(CLIENT_ID) != -1
+      data.target.indexOf('all') == -1 &&
+      data.target.indexOf(CLIENT_ID) == -1
     ) {
-      mainWindow?.webContents.send('mqtt:boadcast-message', data);
-      mainWindow?.focus();
-      mainWindow?.maximize();
+      return;
+    }
+
+    switch (data.action) {
+      case BmdActionType.ping:
+        break;
+      case BmdActionType.boadcast:
+        mainWindow?.webContents.send('mqtt:boadcast-message', data);
+        mainWindow?.focus();
+        mainWindow?.maximize();
+        break;
     }
   } catch (e) {
     console.log(e);
