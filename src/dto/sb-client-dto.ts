@@ -1,5 +1,9 @@
 // SilentBoadcastClient
+export class SbClientDto {
+  id = ''; //客戶端 id
+}
+
 export class SbClient {
-  id = ''; //客戶端 id ex: A777
-  name = '未知'; //顯示名稱 ex: 科技部
+  id = ''; //客戶端 id
+  name = '未知';
 }

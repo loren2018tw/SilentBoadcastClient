@@ -122,7 +122,7 @@ mqtt
 
 // 讀取設定檔
 import { readFileSync } from 'fs';
-import { SbClient } from 'src/dto/sb-client-dto';
+import { SbClient, SbClientDto } from 'src/dto/sb-client-dto';
 const configFile = readFileSync('config.json', 'utf-8');
 const configObject = JSON.parse(configFile);
 
@@ -134,12 +134,11 @@ const mqttClient = connect(MQTT_BROKER);
 
 mqttClient.on('connect', () => {
   console.log('成功連線到 mqtt broker');
-  // 訂閱所有 mqtt 主題
+  // 訂閱 mqtt 主題
   mqttClient.subscribe(MQTT_TOPJECT + '/client');
   // 通知 master client 端上線
-  const sbc: SbClient = {
+  const sbc: SbClientDto = {
     id: CLIENT_ID,
-    name: '未知',
   };
   mqttClient.publish(MQTT_TOPJECT + '/master', JSON.stringify(sbc));
 });
@@ -159,6 +158,10 @@ mqttClient.on('message', (topic, message) => {
 
     switch (data.action) {
       case BmdActionType.ping:
+        const sbc: SbClientDto = {
+          id: CLIENT_ID,
+        };
+        mqttClient.publish(MQTT_TOPJECT + '/master', JSON.stringify(sbc));
         break;
       case BmdActionType.boadcast:
         mainWindow?.webContents.send('mqtt:boadcast-message', data);
