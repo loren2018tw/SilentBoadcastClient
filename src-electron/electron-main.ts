@@ -101,7 +101,10 @@ function createTray(): Tray {
   return appIcon;
 }
 
-Menu.setApplicationMenu(null);
+// 發佈版隱藏選單1
+if (!process.env.DEBUGGING) {
+  Menu.setApplicationMenu(null);
+}
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
@@ -122,7 +125,7 @@ mqtt
 
 // 讀取設定檔
 import { readFileSync } from 'fs';
-import { SbClient, SbClientDto } from 'src/dto/sb-client-dto';
+import { SbClientDto } from 'src/dto/sb-client-dto';
 const configFile = readFileSync('config.json', 'utf-8');
 const configObject = JSON.parse(configFile);
 

@@ -2,20 +2,15 @@
   <div>
     <q-carousel v-model="slide" vertical transition-prev="slide-down" transition-next="slide-up" swipeable animated
       control-color="white" navigation-icon="radio_button_unchecked" navigation padding arrows height="100%"
-      class="bg-purple text-white shadow-1 rounded-borders absolute-full">
+      class="bg-purple text-white shadow-1 rounded-borders  absolute-full">
       <template v-for="(item, index) in msgs" :key="index">
-        <q-carousel-slide :name="index" class="column no-wrap flex-center">
-          <q-icon name="style" size="56px" />
-          <div class="q-mt-md text-center">
+        <q-carousel-slide :name="index" class="column flex-center">
+          <q-icon name="textsms" size="56px" color="info" />
+          <div class="q-mt-md ">
             <q-chip size="xl" color="orange" text-color="white" icon="event">
-              <!-- {{ new Date(item.timestame).toLocaleString('zh-TW', {
-                timeZone: 'Asia/Taipei'
-              }) }} -->
-              <!-- {{ new Date(item.timestame).toLocaleString() }} -->
               {{ new Date(item.timestame).toLocaleString() }}
-
             </q-chip>
-            <h2>{{ item.msg }}</h2>
+            <h2 v-html="item.msg"></h2>
           </div>
         </q-carousel-slide>
       </template>
@@ -46,10 +41,11 @@ if (props.messages) {
 const slide = ref(0);
 
 window.electronAPI.receive('mqtt:boadcast-message', (event, data: BoadcastMessageDto) => {
-  console.log(data);
+  data.msg = data.msg.replace(/\n/g, '<br/>');
+  console.log('mqtt:boadcast-message', data);
   msgs.unshift(data);
   slide.value = 0;
 });
 
 </script>
-src/dto/boadcast-message-dto
+

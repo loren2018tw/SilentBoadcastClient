@@ -5,7 +5,7 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          CKES 無聲廣播 v20231230
+          CKES 無聲廣播 v20240102
         </q-toolbar-title>
 
         <div>Author: Loren Li</div>
