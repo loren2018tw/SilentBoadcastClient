@@ -5,6 +5,7 @@ export class BoadcastMessageDto {
   timestame = 0;
   action = BmdActionType.boadcast;
   msg = '';
+  userIp = '';
 }
 
 export enum BmdActionType {

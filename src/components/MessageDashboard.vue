@@ -8,7 +8,7 @@
           <q-icon name="textsms" size="56px" color="info" />
           <div class="q-mt-md ">
             <q-chip size="xl" color="orange" text-color="white" icon="event">
-              {{ new Date(item.timestame).toLocaleString() }}
+              {{ new Date(item.timestame).toLocaleString() }} (發布者：{{ item.userIp }})
             </q-chip>
             <h2 v-html="item.msg"></h2>
           </div>
@@ -35,6 +35,7 @@ if (props.messages) {
     action: BmdActionType.boadcast,
     timestame: new Date().getTime(),
     msg: '沒有消息，就是好消息...',
+    userIp: '',
   };
 }
 
