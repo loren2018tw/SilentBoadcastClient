@@ -1,31 +1,31 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM è¨­å®šæ·å¾‘åç¨±å’Œç›®æ¨™è·¯å¾‘
-set "ShortcutName=CKESç„¡è²å»£æ’­ å®¢æˆ¶ç«¯"
-set "TargetPath=C:\Path\To\Your\Program.exe"
+REM ³]©w±¶®|¦WºÙ©M¥Ø¼Ğ¸ô®|
+set "ShortcutName=CKESµLÁn¼s¼½ «È¤áºİ"
+set "TargetPath=C:\SilentBoadcastClient\CKES µLÁn¼s¼½¨t²Î.exe"
 
-REM ç¢ºä¿å•Ÿå‹•è³‡æ–™å¤¾å­˜åœ¨
+REM ½T«O±Ò°Ê¸ê®Æ§¨¦s¦b
 if not exist "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" (
     mkdir "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 )
 
-REM å»ºç«‹æ·å¾‘
+REM «Ø¥ß±¶®|
 set "ShortcutPath=%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\%ShortcutName%.lnk"
 set "VBScript=%TEMP%\CreateShortcut.vbs"
 
-REM ä½¿ç”¨ VBScript å»ºç«‹æ·å¾‘
+REM ¨Ï¥Î VBScript «Ø¥ß±¶®|
 echo Set WshShell = WScript.CreateObject("WScript.Shell") > "%VBScript%"
 echo Set Shortcut = WshShell.CreateShortcut("%ShortcutPath%") >> "%VBScript%"
 echo Shortcut.TargetPath = "%TargetPath%" >> "%VBScript%"
 echo Shortcut.Save >> "%VBScript%"
 
-REM åŸ·è¡Œ VBScript ä»¥å»ºç«‹æ·å¾‘
+REM °õ¦æ VBScript ¥H«Ø¥ß±¶®|
 cscript //nologo "%VBScript%"
 
-REM åˆªé™¤è‡¨æ™‚ VBScript
+REM §R°£Á{®É VBScript
 del "%VBScript%"
 
-echo æ·å¾‘å·²å»ºç«‹: %ShortcutPath%
+echo ±¶®|¤w«Ø¥ß: %ShortcutPath%
 
 endlocal

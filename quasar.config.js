@@ -195,7 +195,11 @@ module.exports = configure(function (/* ctx */) {
         extraResources: [
           {
             from: './config.json',
-            to: '/config.json',
+            to: '../config.json',
+          },
+          {
+            from: './public/auto_startup.bat',
+            to: '../auto_startup.bat',
           },
         ],
       },
