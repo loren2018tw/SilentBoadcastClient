@@ -12,7 +12,7 @@ if not exist "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Program
 )
 
 REM 建立捷徑在開始資料夾
-set "ShortcutPath=%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\%ShortcutName%.lnk"
+set "ShortcutPath=%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\%ShortcutName%.lnk"
 set "VBScript=%TEMP%\CreateShortcut.vbs"
 
 REM 使用 VBScript 建立捷徑
