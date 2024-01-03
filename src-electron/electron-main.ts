@@ -31,6 +31,7 @@ function createWindow() {
   mainWindow.loadURL(process.env.APP_URL);
 
   mainWindow.maximize();
+
   if (process.env.DEBUGGING) {
     // if on DEV or Production with debug enabled
     mainWindow.webContents.openDevTools();
@@ -39,7 +40,7 @@ function createWindow() {
     mainWindow.webContents.on('devtools-opened', () => {
       mainWindow?.webContents.closeDevTools();
     });
-    mainWindow.minimize(); // 啟動後直接縮小到系統列
+    mainWindow.hide(); // 啟動後直接縮小到系統列
   }
 
   mainWindow.on('closed', () => {
