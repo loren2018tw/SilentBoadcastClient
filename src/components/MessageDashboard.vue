@@ -21,6 +21,10 @@
 <script setup lang="ts">
 import { BmdActionType, BoadcastMessageDto } from 'src/dto/boadcast-message-dto';
 import { reactive, ref } from 'vue';
+import notifyMp3 from '../assets/msn.mp3';
+let notifySound = new Audio(notifyMp3);
+
+
 
 const props = defineProps<{
   messages?: BoadcastMessageDto[],
@@ -46,6 +50,8 @@ window.electronAPI.receive('mqtt:boadcast-message', (event, data: BoadcastMessag
   console.log('mqtt:boadcast-message', data);
   msgs.unshift(data);
   slide.value = 0;
+
+  notifySound.play();
 });
 
 </script>
