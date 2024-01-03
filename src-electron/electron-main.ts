@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, Tray } from 'electron';
+import { app, BrowserWindow, Menu, Tray, ipcMain } from 'electron';
 import path from 'path';
 import os from 'os';
 import { connect } from 'mqtt';
@@ -132,6 +132,10 @@ const configObject = JSON.parse(configFile);
 const MQTT_BROKER = configObject.mqttBroker;
 const MQTT_TOPJECT = configObject.mqttTopject;
 const CLIENT_ID = configObject.clientId;
+
+ipcMain.handle('get-client-id', () => {
+  return CLIENT_ID;
+});
 
 const mqttClient = connect(MQTT_BROKER);
 

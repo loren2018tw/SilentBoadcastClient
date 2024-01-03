@@ -11,6 +11,7 @@
 export interface IElectronAPI {
   receive(arg0: string, arg1: (event: any, data: any) => void): unknown;
   loadPreferences: () => Promise<void>;
+  invoke(channel: string, ...args: any[]): Promise<any>;
 }
 
 declare global {

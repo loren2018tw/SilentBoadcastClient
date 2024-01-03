@@ -5,10 +5,10 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          CKES 無聲廣播 v20240102
+          CKES 無聲廣播 ClientID: [{{ clientId }}]
         </q-toolbar-title>
 
-        <div>Author: Loren Li</div>
+        <div>v20240102 Author: Loren Li</div>
       </q-toolbar>
     </q-header>
 
@@ -39,57 +39,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import { onMounted, ref } from 'vue';
+// import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 
-const essentialLinks: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+// const essentialLinks: EssentialLinkProps[] = [
+//   {
+//     title: 'Docs',
+//     caption: 'quasar.dev',
+//     icon: 'school',
+//     link: 'https://quasar.dev'
+//   },
+//   {
+//     title: 'Github',
+//     caption: 'github.com/quasarframework',
+//     icon: 'code',
+//     link: 'https://github.com/quasarframework'
+//   },
+// ];
 
 const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+let clientId = ref('9999');
+
+onMounted(() => {
+  window.electronAPI.invoke('get-client-id').then((id: string) => {
+    console.log('id', id);
+    clientId.value = id;
+  });
+
+});
+
 </script>

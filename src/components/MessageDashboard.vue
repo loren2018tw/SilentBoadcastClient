@@ -23,7 +23,7 @@ import { BmdActionType, BoadcastMessageDto } from 'src/dto/boadcast-message-dto'
 import { reactive, ref } from 'vue';
 
 const props = defineProps<{
-  messages?: BoadcastMessageDto[];
+  messages?: BoadcastMessageDto[],
 }>()
 
 let msgs: BoadcastMessageDto[] = reactive([]);
