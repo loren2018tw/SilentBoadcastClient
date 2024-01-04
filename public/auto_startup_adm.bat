@@ -31,5 +31,5 @@ REM 刪除臨時 VBScript
 del "%VBScript%"
 
 echo 捷徑已建立: %ShortcutPath%
-
+explorer.exe C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\
 endlocal
