@@ -201,6 +201,10 @@ module.exports = configure(function (/* ctx */) {
             from: './public/auto_startup.bat',
             to: '../auto_startup.bat',
           },
+          {
+            from: './public/auto_startup_adm.bat',
+            to: '../auto_startup_adm.bat',
+          },
         ],
       },
     },
