@@ -8,7 +8,7 @@
           CKES 無聲廣播 ClientID: [{{ clientId }}]
         </q-toolbar-title>
 
-        <div>v20240102 Author: Loren Li</div>
+        <div>v20240103 Author: Loren Li</div>
       </q-toolbar>
     </q-header>
 
