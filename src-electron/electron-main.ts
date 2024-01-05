@@ -64,19 +64,15 @@ function createWindow() {
   mainWindow.on('minimize', function (event: Electron.Event) {
     event.preventDefault();
     mainWindow?.hide();
-    // tray = createTray();
   });
 
   mainWindow.on('restore', function () {
     mainWindow?.show();
-    // tray?.destroy();
   });
 }
 
 function createTray(): Tray {
   const appIcon = new Tray(
-    // path.join(__dirname, '../../src-electron/icons/icon.png')
-    // path.resolve(__dirname, 'icons/icon.png')
     path.resolve(__dirname, process.env.QUASAR_PUBLIC_FOLDER) +
       '/secret-santa.png'
   );
@@ -85,6 +81,7 @@ function createTray(): Tray {
       label: '顯示訊息',
       click: function () {
         mainWindow?.show();
+        mainWindow?.maximize();
       },
     },
     {
@@ -210,8 +207,14 @@ mqttClient.on('message', (topic, message) => {
         break;
       case BmdActionType.boadcast:
         mainWindow?.webContents.send('mqtt:boadcast-message', data);
-        mainWindow?.focus();
+
+        // 強制帶到前景
+        mainWindow?.setAlwaysOnTop(true);
+        mainWindow?.show();
         mainWindow?.maximize();
+        mainWindow?.setAlwaysOnTop(false);
+        app.focus();
+
         break;
     }
   } catch (e) {
