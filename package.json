@@ -1,6 +1,6 @@
 {
   "name": "silentboadcastclient",
-  "version": "0.0.1",
+  "version": "24.01.05",
   "description": "無聲廣播客戶端",
   "productName": "Silent Board Client",
   "author": "Loren Li <loren.tw@gmail.com>",
@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
+    "@types/auto-launch": "^5.0.5",
+    "auto-launch": "^5.0.6",
     "axios": "^1.2.1",
     "mqtt": "^5.3.4",
     "quasar": "^2.6.0",
@@ -26,8 +28,8 @@
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "@vue/devtools": "^6.5.1",
-    "electron": "^28.1.0",
     "autoprefixer": "^10.4.2",
+    "electron": "^28.1.0",
     "electron-builder": "^24.3.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.10.0",

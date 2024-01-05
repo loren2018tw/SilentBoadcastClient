@@ -8,7 +8,7 @@
           CKES 無聲廣播 ClientID: [{{ clientId }}]
         </q-toolbar-title>
 
-        <div>v20240103 Author: Loren Li</div>
+        <div>V{{ applicationVersion }} Author: Loren Li</div>
       </q-toolbar>
     </q-header>
 
@@ -40,6 +40,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { version } from '../../package.json'
+const applicationVersion = ref(version);
 // import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 
 // const essentialLinks: EssentialLinkProps[] = [

@@ -6,6 +6,7 @@ import {
   BmdActionType,
   BoadcastMessageDto,
 } from 'src/dto/boadcast-message-dto';
+import AutoLaunch from 'auto-launch';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -120,15 +121,43 @@ app.on('activate', () => {
   }
 });
 
-/*
-mqtt
-*/
+app.on('ready', () => {
+  //設定開機自動執行
+  console.log('exePath=', app.getPath('exe'));
+  //非開發環境設定自動啟動
+  if (!process.env.DEBUGGING) {
+    const autoLaunch = new AutoLaunch({
+      name: 'SlientBoadcastClient',
+      path: app.getPath('exe'),
+    });
+    autoLaunch.isEnabled().then((isEnabled: boolean) => {
+      if (!isEnabled) autoLaunch.enable();
+    });
+  }
+});
 
+/* mqtt */
 // 讀取設定檔
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { SbClientDto } from 'src/dto/sb-client-dto';
-const configFile = readFileSync('config.json', 'utf-8');
-const configObject = JSON.parse(configFile);
+
+let configFile;
+let configObject;
+
+console.log('userData=' + app.getPath('userData'));
+const _filePath = app.getPath('userData') + '/SBCConfig.json';
+try {
+  configFile = readFileSync(_filePath, 'utf-8');
+  configObject = JSON.parse(configFile);
+} catch {
+  // 避免重新安裝(更新)會蓋掉設定檔，所以設定檔第一次要動態產生放在 userdata 資料夾
+  configObject = {
+    mqttBroker: 'mqtt://140.128.179.9',
+    mqttTopject: '193604/SilentBoadcast',
+    clientId: 'A777',
+  };
+  writeFileSync(_filePath, JSON.stringify(configObject, null, 2), 'utf-8');
+}
 
 const MQTT_BROKER = configObject.mqttBroker;
 const MQTT_TOPJECT = configObject.mqttTopject;
