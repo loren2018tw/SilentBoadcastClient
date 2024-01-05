@@ -184,8 +184,11 @@ module.exports = configure(function (/* ctx */) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-        appId: 'silentboadcastclient',
+        appId: 'boats.loren.SilentBoadcastClient',
         productName: 'CKES無聲廣播系統',
+        publish: {
+          provider: 'github',
+        },
         win: {
           target: 'nsis',
         },
