@@ -7,6 +7,7 @@ import {
   BoadcastMessageDto,
 } from 'src/dto/boadcast-message-dto';
 import AutoLaunch from 'auto-launch';
+import { autoUpdater } from 'electron-updater';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -122,6 +123,8 @@ app.on('activate', () => {
 });
 
 app.on('ready', () => {
+  autoUpdater.checkForUpdatesAndNotify();
+
   //設定開機自動執行
   console.log('exePath=', app.getPath('exe'));
   //非開發環境設定自動啟動

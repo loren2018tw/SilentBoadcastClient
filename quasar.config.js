@@ -186,6 +186,7 @@ module.exports = configure(function (/* ctx */) {
         // https://www.electron.build/configuration/configuration
         appId: 'boats.loren.SilentBoadcastClient',
         productName: 'CKES無聲廣播系統',
+        artifactName: 'SilentBoadcastClient-${version}.${ext}',
         publish: {
           provider: 'github',
         },

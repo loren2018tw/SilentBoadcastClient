@@ -1,6 +1,6 @@
 {
   "name": "silentboadcastclient",
-  "version": "24.01.05",
+  "version": "24.1.5.1",
   "description": "無聲廣播客戶端",
   "productName": "Silent Board Client",
   "author": "Loren Li <loren.tw@gmail.com>",
@@ -17,6 +17,7 @@
     "@types/auto-launch": "^5.0.5",
     "auto-launch": "^5.0.6",
     "axios": "^1.2.1",
+    "electron-updater": "^6.1.7",
     "mqtt": "^5.3.4",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
