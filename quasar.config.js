@@ -190,12 +190,6 @@ module.exports = configure(function (/* ctx */) {
         publish: {
           provider: 'github',
         },
-        win: {
-          target: 'nsis',
-        },
-        linux: {
-          target: 'tar.gz',
-        },
         extraResources: [
           {
             from: './config.json',
